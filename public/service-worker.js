@@ -1,3 +1,5 @@
+const CACHE_NAME = "static-cache-v1";
+const DATA_CACHE_NAME = "data-cache-v1";
 const FILES_TO_CACHE = [
     "/",
     "/index.html",
@@ -9,11 +11,8 @@ const FILES_TO_CACHE = [
     "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
     "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
   ];
-  
-  const CACHE_NAME = "static-cache-v1";
-  const DATA_CACHE_NAME = "data-cache-v1";
-  
-  self.addEventListener("install", (evt) => {
+    
+  self.addEventListener("install", function(evt) {
     evt.waitUntil(
       caches.open(CACHE_NAME).then((cache) => {
         return cache.addAll(FILES_TO_CACHE);
@@ -23,7 +22,7 @@ const FILES_TO_CACHE = [
     self.skipWaiting();
   });
   
-  self.addEventListener("activate", (evt) => {
+  self.addEventListener("activate", function(evt) {
     evt.waitUntil(
       caches.keys().then((keyList) => {
         return Promise.all(
@@ -39,8 +38,8 @@ const FILES_TO_CACHE = [
     self.clients.claim();
   });
   
-  self.addEventListener("fetch", (evt) => {
-    if (evt.request.url.includes("/api/") && evt.request.method === "GET") {
+  self.addEventListener("fetch", function(evt) {
+    if (evt.request.url.includes("/api/transaction")) {
       evt.respondWith(
         caches
           .open(DATA_CACHE_NAME)
@@ -48,12 +47,12 @@ const FILES_TO_CACHE = [
             return fetch(evt.request)
               .then((response) => {
                 if (response.status === 200) {
-                  cache.put(evt.request, response.clone());
+                  cache.put(evt.request.url, response.clone());
                 }
   
                 return response;
               })
-              .catch(() => {
+              .catch(err => {
                 return cache.match(evt.request);
               });
           })

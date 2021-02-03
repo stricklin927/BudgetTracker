@@ -1,25 +1,16 @@
-const indexedDB =
-  window.indexedDB ||
-  window.mozIndexedDB ||
-  window.webkitIndexedDB ||
-  window.msIndexedDB ||
-  window.shimIndexedDB;
-
 let db;
-const request = indexedDB.open("budget", 1);
+const request = indexedDB.open("Transaction", 1);
 
-request.onupgradeneeded = (event) => {
-  event.target.result.createObjectStore("pending", {
-    keyPath: "id",
-    autoIncrement: true
-  });
+request.onupgradeneeded = function(event) {
+  const db = event.target.result;
+  db.createObjectStore("pending", {autoIncrement: true});
 };
 
-request.onerror = (err) => {
+request.onerror = function(err) {
   console.log(err.message);
 };
 
-request.onsuccess = (event) => {
+request.onsuccess = function(event) {
   db = event.target.result;
 
   if (navigator.onLine) {
@@ -28,17 +19,17 @@ request.onsuccess = (event) => {
 };
 
 function saveRecord(record) {
-  const transaction = db.transaction("pending", "readwrite");
+  const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   store.add(record);
 }
 
 function checkDatabase() {
-  const transaction = db.transaction("pending", "readonly");
+  const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   const getAll = store.getAll();
 
-  getAll.onsuccess = () => {
+  getAll.onsuccess = function() {
     if (getAll.result.length > 0) {
       fetch("/api/transaction/bulk", {
         method: "POST",
@@ -50,7 +41,7 @@ function checkDatabase() {
       })
         .then((response) => response.json())
         .then(() => {
-          const transaction = db.transaction("pending", "readwrite");
+          const transaction = db.transaction(["pending"], "readwrite");
           const store = transaction.objectStore("pending");
           store.clear();
         });
@@ -58,4 +49,5 @@ function checkDatabase() {
   };
 }
 
+// Listening for the app to come back Online
 window.addEventListener("online", checkDatabase);
