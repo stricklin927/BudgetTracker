@@ -16,6 +16,7 @@ When brought back online:
 Giving users a fast and easy way to track their money is important, but allowing them to access that information anytime is even more important. Having offline functionality is paramount to our applications success.
 
 ## App Demo
+* Application deployed to Heroku
 [Click here to demo this app.](https://blooming-mesa-02809.herokuapp.com/)
 
 ### Budget Tracker App
