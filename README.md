@@ -18,7 +18,7 @@ Giving users a fast and easy way to track their money is important, but allowing
 ## App Demo
 [Click here to demo this app.](https://blooming-mesa-02809.herokuapp.com/)
 
-### Fitness Tracker App
+### Budget Tracker App
 ![Budget Tracker Demo](/public/images/demo1.png)
 
 ## Installation
