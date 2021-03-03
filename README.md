@@ -12,7 +12,7 @@ Offline Functionality:
 When brought back online:
   * Offline entries are added to tracker.
 
-## Business Context
+### Business Context
 Giving users a fast and easy way to track their money is important, but allowing them to access that information anytime is even more important. Having offline functionality is paramount to our applications success.
 
 ## App Demo
@@ -20,8 +20,11 @@ Giving users a fast and easy way to track their money is important, but allowing
 
 ### Fitness Tracker App
 ![Budget Tracker Demo](/public/assets/images/demo1.png)
-![Budget Tracker Demo](/public/assets/images/demo2.png)
-![Budget Tracker Demo](/public/assets/images/demo3.png)
+
+## Installation
+1. git clone
+2. npm install
+3. Node.js and MongoDB required.
 
 ## License
 * ![License badge](https://img.shields.io/badge/License-MIT-green)
